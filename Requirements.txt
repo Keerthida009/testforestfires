@@ -1,0 +1,6 @@
+Flask 3.0.3
+Werkzeug 3.1.1
+scikit-learn==1.3.0 # Or your specific scikit-learn version
+pandas==2.0.3 # Or your specific pandas version
+numpy==1.25.1 # Or your specific numpy version
+gunicorn==20.1.0 # Recommended for production Flask deployments on Cloud Run
