@@ -5,27 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forest Fire Prediction</title>
     <style>
- body {
+body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
+    background-image: url("{{ url_for('static', filename='images/download.jpeg') }}"); /* Combined background image */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 100vh;
+    height: 100vh; /* Ensure the body covers the entire viewport height */
 }
 
-/* To set your own background image */
-body {
-    background-image: url("{{ url_for('static', filename='images/download.jpeg') }}");
-    background-size: cover;
-
-}
 .container {
     width: 40%;
     margin: auto;
     padding: 20px;
-    background: rgba(255, 208, 66, 0.8); /* Light orange for fire theme */
+    background: rgba(255, 208, 66, 0.8);
     border-radius: 10px;
     text-align: center;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
@@ -63,7 +58,6 @@ button {
 button:hover {
     background-color: red;
 }
-
     </style>
 </head>
 <body>
