@@ -1,7 +1,7 @@
 import pickle
 from flask import Flask, request, jsonify, render_template
 import numpy as np
-import pandas as pd  # Standard alias
+import pandas as pd  # Corrected pandas alias
 from sklearn.preprocessing import StandardScaler
 
 application = Flask(__name__)
@@ -12,12 +12,12 @@ try:
     standard_scaler = pickle.load(open('models/scaler.pkl', 'rb'))
 except Exception as e:
     print(f"Error loading models: {e}")
-    ridge_model = None  # Or handle the error appropriately
+    ridge_model = None
     standard_scaler = None
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template('home.html')  # Render home.html directly
 
 @app.route('/predictdata', methods=['GET', 'POST'])
 def predict_datapoint():
@@ -28,7 +28,7 @@ def predict_datapoint():
             except ValueError:
                 return 0.0
 
-        try: # Wrap the POST logic in a try-except
+        try:
             Temperature = safe_float(request.form.get('Temperature'))
             RH = safe_float(request.form.get('RH'))
             Ws = safe_float(request.form.get('Ws'))
@@ -39,9 +39,9 @@ def predict_datapoint():
             Classes = safe_float(request.form.get('Classes'))
             Region = safe_float(request.form.get('Region'))
 
-            new_data = np.array([[Temperature, RH, Ws, Rain, FFMC, DMC, ISI, Classes, Region]]) # Create the array *before* scaling
+            new_data = np.array([[Temperature, RH, Ws, Rain, FFMC, DMC, ISI, Classes, Region]])
             new_data_scaled = standard_scaler.transform(new_data)
-            result = ridge_model.predict(new_data_scaled)[0] # Access first element for single prediction
+            result = ridge_model.predict(new_data_scaled)[0]
 
             if result < 5:
                 risk_level = "Low Fire Risk 🟢"
@@ -56,10 +56,10 @@ def predict_datapoint():
 
         except Exception as e:
             print(f"Prediction error: {e}")
-            return render_template('home.html', error="An error occurred during prediction.")  # Handle the error in the template
+            return render_template('home.html', error="An error occurred during prediction.")
+
     else:
-        return render_template('home.html') # Corrected: Only one return statement needed here, and remove results
+        return render_template('home.html')
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080, debug=True) # NEVER debug=True in production!
-
+    app.run(host="0.0.0.0", port=8080, debug=True)  # debug=False for production!
